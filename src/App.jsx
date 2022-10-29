@@ -8,50 +8,35 @@ import './App.css'
 import useChange from './hooks/useChange';
 
 function App() {
-  
   const [users, setUsers] = useState({});
   //const [emojis, setEmojis] = useState({});
-  const randomPhrases = (Math.floor(Math.random()* quotes.length));
+  const randomPhrases = (Math.floor(Math.random() * quotes.length));
   const [quoteIndex, setQuoteIndex] = useState(randomPhrases);
 
   /** 
-   *
-
   useEffect(() => {
     axios
     .get('https://api.emojisworld.fr/v1/random')
     .then((res) => setEmojis(res.data.results[0]))
-  }, [])*/ 
- 
-
-  useEffect(() =>{
+  }, [])*/
+  useEffect(() => {
     axios
-     .get('https://randomuser.me/api/')
-     .then((res) => setUsers(res.data.results[0]))
- }, []);
+      .get('https://randomuser.me/api/')
+      .then((res) => setUsers(res.data.results[0]))
+  }, []);
 
-  const tamaño = quotes[quoteIndex].quote.length;
-  console.log(tamaño)
-
-  const changeClick = () =>{
-
-    const randomPhrasesClick = (Math.floor(Math.random()* quotes.length));
-   
-
+  const changeClick = () => {
     axios
-    .get('https://randomuser.me/api/')
-    .then((res) => setUsers(res.data.results[0]))
-    
-    if(!tamaño < 200){
+      .get('https://randomuser.me/api/')
+      .then((res) => setUsers(res.data.results[0]))
+
+    const randomPhrasesClick = (Math.floor(Math.random() * quotes.length));
+    const tamaño = quotes[randomPhrasesClick].quote.split("")
+    //console.log(tamaño.length)
+    if (tamaño.length < 200) {
       setQuoteIndex(randomPhrasesClick)
     }
-      
-    
-    
-   
   }
-  //console.log(users)
-  //console.log(emojis)
   return (
     <div className="App">
       <div className='box-top'>
@@ -70,7 +55,7 @@ function App() {
           <div className='app-top'>
             <i className="fa-solid fa-arrow-left"></i>
             <div className='imagen-user'>
-              <img src={users.picture?.thumbnail} alt="" className='profile-image'/>
+              <img src={users.picture?.thumbnail} alt="" className='profile-image' />
             </div>
             <div className='user'>
               <p><b>{users.name?.first} {" "} {users.name?.last}</b></p>
@@ -88,10 +73,10 @@ function App() {
           </div>
           <div className='chats'>
             <ChatEnvio users={users} quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
-            <ChatRecibido users={users}  quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
-            <ChatEnvio  users={users}  quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
-            <ChatRecibido users={users}  quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
-            <ChatEnvio users={users}  quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
+            <ChatRecibido users={users} quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
+            <ChatEnvio users={users} quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
+            <ChatRecibido users={users} quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
+            <ChatEnvio users={users} quoteIndex={quoteIndex} randomPhrases={randomPhrases} />
             <div className='message-box'>
               <div className='box-chat'>
                 <div className='left-chat'>
@@ -101,19 +86,17 @@ function App() {
                 <div className='right-chat'>
                   <i className="fa-solid fa-paperclip"></i>
                   <i className="fa-solid fa-camera"></i>
-                  </div>
+                </div>
               </div>
               <div className='arrow-send'>
                 <i className="fa-solid fa-circle-arrow-right arrow" onClick={changeClick}></i>
               </div>
-              
             </div>
-
           </div>
           <div className='end-display'>
-          <i className="fa-solid fa-square"></i>
-          <i className="fa-regular fa-circle"></i>
-          <i className="fa-solid fa-caret-left"></i>
+            <i className="fa-solid fa-square"></i>
+            <i className="fa-regular fa-circle"></i>
+            <i className="fa-solid fa-caret-left"></i>
           </div>
         </div>
       </div>
